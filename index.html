@@ -1,1 +1,1326 @@
-fff
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Imperium – Beta Access</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Imperium è il nuovo server Minecraft Random Death Match a fazioni. Entra nella beta esclusiva del GamesWeek."
+    />
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- STILI -->
+    <style>
+      :root {
+        --bg-dark: #050812;
+        --bg-card: #0f172a;
+        --accent: #ff3434;
+        --accent-soft: rgba(255, 52, 52, 0.15);
+        --accent-2: #00f3ff;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --border-subtle: rgba(148, 163, 184, 0.35);
+        --radius-lg: 18px;
+        --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.75);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 0% 0%, #1f2937 0, #020617 45%, #000 100%);
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+      }
+
+      #root {
+        width: 100%;
+      }
+
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+
+      @media (min-width: 1024px) {
+        .page {
+          padding-top: 40px;
+        }
+      }
+
+      .glow-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .glow-orb {
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 999px;
+        filter: blur(48px);
+        opacity: 0.45;
+        mix-blend-mode: screen;
+        animation: float 18s ease-in-out infinite alternate;
+      }
+
+      .glow-orb.orb-red {
+        background: radial-gradient(circle, rgba(248, 113, 113, 0.9), transparent);
+        top: -80px;
+        right: -120px;
+      }
+
+      .glow-orb.orb-cyan {
+        background: radial-gradient(circle, rgba(34, 211, 238, 0.9), transparent);
+        bottom: -120px;
+        left: -100px;
+        animation-delay: -6s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(-40px, 30px, 0) scale(1.1);
+        }
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr);
+        gap: 28px;
+      }
+
+      @media (min-width: 960px) {
+        .hero {
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr);
+          align-items: center;
+          gap: 40px;
+        }
+      }
+
+      .hero-copy h1 {
+        font-family: "Rajdhani", system-ui;
+        font-size: clamp(2.2rem, 3vw + 1rem, 3.4rem);
+        line-height: 1.05;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin: 0 0 8px;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 4px 10px 4px 4px;
+        margin-bottom: 10px;
+        background: linear-gradient(
+          90deg,
+          rgba(248, 250, 252, 0.15),
+          rgba(30, 64, 175, 0.25)
+        );
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        backdrop-filter: blur(12px);
+      }
+
+      .hero-badge-pill {
+        background: radial-gradient(circle at 30% 0, #f97316, #ef4444);
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      .hero-badge-text {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-weight: 500;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+        color: var(--text-muted);
+        max-width: 520px;
+        margin-bottom: 12px;
+      }
+
+      .hero-highlight {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 16px;
+        font-size: 13px;
+      }
+
+      .hero-highlight span {
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(12px);
+      }
+
+      .hero-steps {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+        font-size: 13px;
+      }
+
+      .hero-step {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+      }
+
+      .hero-step-index {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .hero-step span:last-child {
+        color: var(--text-muted);
+      }
+
+      .hero-cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .btn-primary {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f97316, #ef4444, #b91c1c);
+        color: #fff;
+        box-shadow: 0 18px 40px rgba(248, 113, 113, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -60%;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.45),
+          transparent
+        );
+        transform: skewX(-20deg);
+        opacity: 0;
+        transition: 0.4s;
+      }
+
+      .btn-primary:hover::after {
+        left: 120%;
+        opacity: 1;
+      }
+
+      .btn-secondary {
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid rgba(148, 163, 184, 0.75);
+        background: rgba(15, 23, 42, 0.7);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+
+      .btn-secondary span {
+        font-size: 16px;
+      }
+
+      .hero-caption {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .hero-caption strong {
+        color: #e5e7eb;
+      }
+
+      .hero-logo-wrap {
+        position: relative;
+        padding: 18px 16px;
+        border-radius: 26px;
+        background: radial-gradient(circle at 0 0, #1e293b, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+      }
+
+      .hero-logo-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: 0.4;
+        background-image: radial-gradient(
+            circle at 20% 0,
+            rgba(59, 130, 246, 0.4),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 80% 100%,
+            rgba(248, 113, 113, 0.35),
+            transparent 55%
+          );
+        filter: blur(6px);
+        z-index: -1;
+      }
+
+      .hero-logo {
+        width: 100%;
+        max-width: 380px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .hero-logo-tag {
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .hero-logo-tag span {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      /* LAYOUT MAIN SECTIONS */
+
+      .layout-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr);
+        gap: 26px;
+        margin-top: 30px;
+      }
+
+      @media (min-width: 960px) {
+        .layout-main {
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          align-items: flex-start;
+        }
+      }
+
+      .card {
+        background: rgba(15, 23, 42, 0.92);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-subtle);
+        padding: 18px 18px 20px;
+        box-shadow: var(--shadow-card);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 12px;
+      }
+
+      .card-title {
+        font-family: "Rajdhani", system-ui;
+        font-size: 1.15rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .card-pill {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        color: var(--text-muted);
+      }
+
+      .card-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 14px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      @media (min-width: 768px) {
+        .feature-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .feature-chip {
+        padding: 8px 9px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .feature-chip-title {
+        font-weight: 600;
+      }
+
+      .feature-chip-desc {
+        color: var(--text-muted);
+      }
+
+      .beta-perks {
+        display: grid;
+        gap: 8px;
+        margin: 12px 0;
+        font-size: 13px;
+      }
+
+      .beta-perk {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .beta-perk-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        flex-shrink: 0;
+        background: var(--accent-soft);
+        border: 1px solid rgba(248, 113, 113, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .beta-perk strong {
+        display: block;
+      }
+
+      .timeline {
+        margin-top: 14px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.5);
+      }
+
+      .timeline-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 5px;
+      }
+
+      .timeline-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent-2);
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+      }
+
+      .timeline-row strong {
+        color: #e5e7eb;
+        margin-right: 4px;
+      }
+
+      /* FORM */
+
+      .form {
+        display: grid;
+        gap: 10px;
+      }
+
+      .form-row-inline {
+        display: grid;
+        gap: 10px;
+      }
+
+      @media (min-width: 640px) {
+        .form-row-inline {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .field-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+      }
+
+      .field-label span {
+        color: #f97316;
+      }
+
+      .input,
+      .select,
+      .textarea {
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 9px 11px;
+        color: var(--text-main);
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease,
+          background 0.18s ease;
+      }
+
+      .textarea {
+        resize: vertical;
+        min-height: 70px;
+      }
+
+      .input:focus,
+      .select:focus,
+      .textarea:focus {
+        border-color: var(--accent-2);
+        box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.7);
+        background: rgba(15, 23, 42, 0.98);
+      }
+
+      .field-hint {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .checkbox-row input {
+        margin-top: 2px;
+      }
+
+      .checkbox-row span {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .form-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .form-status {
+        font-size: 12px;
+      }
+
+      .form-status.success {
+        color: #4ade80;
+      }
+
+      .form-status.error {
+        color: #f97373;
+      }
+
+      .tiny-note {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 6px;
+      }
+
+      footer {
+        margin-top: 26px;
+        font-size: 11px;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      footer a {
+        color: #9ca3af;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glow-bg">
+      <div class="glow-orb orb-red"></div>
+      <div class="glow-orb orb-cyan"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- REACT + FRAMER MOTION -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+
+    <script>
+      const { useState } = React;
+      const { motion, AnimatePresence } = window["framer-motion"];
+
+      function ImperiumLanding() {
+        const [formData, setFormData] = useState({
+          nickname: "",
+          email: "",
+          platform: "",
+          ageRange: "",
+          pvpLevel: "",
+          faction: "",
+          expectations: "",
+          agree: false,
+        });
+
+        const [status, setStatus] = useState({ type: "", message: "" });
+        const [submitting, setSubmitting] = useState(false);
+
+        function handleChange(e) {
+          const { name, value, type, checked } = e.target;
+          setFormData((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+          }));
+        }
+
+        async function handleSubmit(e) {
+          e.preventDefault();
+          setStatus({ type: "", message: "" });
+
+          if (!formData.nickname || !formData.email || !formData.agree) {
+            setStatus({
+              type: "error",
+              message: "Compila nickname, email e accetta la privacy per continuare.",
+            });
+            return;
+          }
+
+          setSubmitting(true);
+
+          try {
+            // TODO: sostituisci con la tua endpoint (es. /api/beta-signup.php)
+            // qui simulo soltanto
+            await new Promise((res) => setTimeout(res, 900));
+
+            setStatus({
+              type: "success",
+              message:
+                "Sei dentro! Controlla la mail: riceverai le istruzioni per entrare nella beta.",
+            });
+
+            // opzionale: reset parziale
+            setFormData((prev) => ({
+              ...prev,
+              nickname: "",
+              email: "",
+              expectations: "",
+            }));
+          } catch (err) {
+            console.error(err);
+            setStatus({
+              type: "error",
+              message:
+                "Errore temporaneo. Riprova tra qualche minuto oppure contatta lo staff di Imperium.",
+            });
+          } finally {
+            setSubmitting(false);
+          }
+        }
+
+        function scrollToForm() {
+          const formEl = document.getElementById("beta-form");
+          if (formEl) {
+            formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+
+        return React.createElement(
+          "main",
+          { className: "page" },
+          React.createElement(
+            motion.section,
+            {
+              className: "hero",
+              initial: { opacity: 0, y: 18 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.6, ease: "easeOut" },
+            },
+            React.createElement(
+              "div",
+              { className: "hero-copy" },
+              React.createElement(
+                "div",
+                { className: "hero-badge" },
+                React.createElement(
+                  "div",
+                  { className: "hero-badge-pill" },
+                  "GamesWeek Exclusive"
+                ),
+                React.createElement(
+                  "div",
+                  { className: "hero-badge-text" },
+                  "QR Code Access \u2022 Closed Beta"
+                )
+              ),
+              React.createElement(
+                "h1",
+                null,
+                "Imperium",
+                React.createElement("br", null),
+                "Random Death Match a Fazioni"
+              ),
+              React.createElement(
+                "p",
+                { className: "hero-subtitle" },
+                "Criminali vs forze dell'ordine, raid, appartamenti, veicoli e PvP al limite. ",
+                "Se stai vedendo questa pagina sei tra i pochi invitati alla beta chiusa."
+              ),
+              React.createElement(
+                "div",
+                { className: "hero-highlight" },
+                React.createElement("span", null, "Raid tattici e bossbar di guerra"),
+                React.createElement("span", null, "Appartamenti da proteggere e affittare"),
+                React.createElement("span", null, "Armi ispirate a Rainbow Six / CoD"),
+                React.createElement("span", null, "Progressione rank competitiva")
+              ),
+              React.createElement(
+                "div",
+                { className: "hero-steps" },
+                React.createElement(
+                  "div",
+                  { className: "hero-step" },
+                  React.createElement("div", { className: "hero-step-index" }, "1"),
+                  React.createElement("span", null, "Compila il form"),
+                  React.createElement("span", null, "email + nickname Minecraft")
+                ),
+                React.createElement(
+                  "div",
+                  { className: "hero-step" },
+                  React.createElement("div", { className: "hero-step-index" }, "2"),
+                  React.createElement("span", null, "Ricevi l'accesso alla beta"),
+                  React.createElement(
+                    "span",
+                    null,
+                    "e joini il server prima degli altri"
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "hero-step" },
+                  React.createElement("div", { className: "hero-step-index" }, "3"),
+                  React.createElement("span", null, "Ottieni il bonus launch"),
+                  React.createElement(
+                    "span",
+                    null,
+                    "boost esclusivo all'apertura ufficiale"
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                { className: "hero-cta-row" },
+                React.createElement(
+                  "button",
+                  { className: "btn-primary", onClick: scrollToForm },
+                  "ENTRA NELLA BETA",
+                  React.createElement("span", null, "\u27a4")
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    type: "button",
+                    className: "btn-secondary",
+                    onClick: scrollToForm,
+                  },
+                  React.createElement("span", null, "\u25cf"),
+                  "Posti limitati solo per il GamesWeek"
+                )
+              ),
+              React.createElement(
+                "p",
+                { className: "hero-caption" },
+                React.createElement("strong", null, "Nessun spam."),
+                " Useremo la tua mail solo per inviarti IP del server, orari della beta e il premio di lancio."
+              )
+            ),
+            React.createElement(
+              motion.div,
+              {
+                className: "hero-logo-wrap",
+                initial: { opacity: 0, scale: 0.9, y: 10 },
+                animate: { opacity: 1, scale: 1, y: 0 },
+                transition: { delay: 0.1, duration: 0.5, ease: "easeOut" },
+              },
+              React.createElement("img", {
+                src: "imperium-logo.png",
+                alt: "Logo Imperium server Minecraft",
+                className: "hero-logo",
+              }),
+              React.createElement(
+                "div",
+                { className: "hero-logo-tag" },
+                React.createElement("span", null, "Minecraft Java Edition"),
+                React.createElement("span", null, "Modalità: Random Death Match"),
+                React.createElement("span", null, "Fazioni: Criminali vs Polizia")
+              )
+            )
+          ),
+          React.createElement(
+            "section",
+            { className: "layout-main" },
+            React.createElement(
+              motion.section,
+              {
+                className: "card",
+                initial: { opacity: 0, y: 18 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, amount: 0.3 },
+                transition: { duration: 0.45, ease: "easeOut" },
+              },
+              React.createElement(
+                "div",
+                { className: "card-header" },
+                React.createElement(
+                  "h2",
+                  { className: "card-title" },
+                  "Cosa ti aspetta su ",
+                  React.createElement("span", { style: { color: "#f97316" } }, "Imperium"),
+                  "?"
+                ),
+                React.createElement("div", { className: "card-pill" }, "HIGH RISK / HIGH REWARD")
+              ),
+              React.createElement(
+                "p",
+                { className: "card-subtitle" },
+                "Imperium \u00e8 un server PvP adrenalinico: ogni volta che entri puoi perdere tutto o salire di rango. ",
+                "Le fazioni si organizzano in gang, proteggono i propri appartamenti, pianificano raid e si contendono il controllo della citt\u00e0."
+              ),
+              React.createElement(
+                "div",
+                { className: "feature-grid" },
+                React.createElement(
+                  "div",
+                  { className: "feature-chip" },
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-title" },
+                    "Raid & assalti programmati"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-desc" },
+                    "C4, bossbar globale, tempo limitato, difesa organizzata. Ogni errore costa caro."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "feature-chip" },
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-title" },
+                    "Appartamenti e bunker"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-desc" },
+                    "Affitta, arreda, nascondi il tuo loot e difendilo quando scatta l'allarme."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "feature-chip" },
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-title" },
+                    "Armi e loadout"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-desc" },
+                    "Armeria ispirata a Rainbow Six e CoD. Mitragliette, fucili d'assalto, rarit\u00e0 e personalizzazioni."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "feature-chip" },
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-title" },
+                    "Rank & competitive"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "feature-chip-desc" },
+                    "Sistema rank, statistiche, kill effect, duelli 1v1 per dimostrare chi merita la vetta."
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                { className: "beta-perks" },
+                React.createElement(
+                  "div",
+                  { className: "beta-perk" },
+                  React.createElement("div", { className: "beta-perk-icon" }, "\u2605"),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Tag esclusivo in game"),
+                    "Solo chi arriva dalla beta GamesWeek avr\u00e0 un riconoscimento visivo permanente."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "beta-perk" },
+                  React.createElement("div", { className: "beta-perk-icon" }, "\ud83d\udcac"),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Accesso prioritario allo staff"),
+                    "Suggerisci idee, segnala bug, influenzi direttamente come nascer\u00e0 il server."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "beta-perk" },
+                  React.createElement("div", { className: "beta-perk-icon" }, "\ud83d\udca1"),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Boost alla release ufficiale"),
+                    "Drop iniziale potenziato (soldi, kit o altro bonus) riservato solo ai tester beta."
+                  )
+                )
+              ),
+              React.createElement(
+                "div",
+                { className: "timeline" },
+                React.createElement(
+                  "div",
+                  { className: "timeline-row" },
+                  React.createElement("div", { className: "timeline-dot" }),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Fiera & QR code"),
+                    " Registri nickname e mail da questa landing."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "timeline-row" },
+                  React.createElement("div", { className: "timeline-dot" }),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Beta chiusa"),
+                    " Ricevi IP, orari dedicati e canale Discord riservato."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "timeline-row" },
+                  React.createElement("div", { className: "timeline-dot" }),
+                  React.createElement(
+                    "div",
+                    null,
+                    React.createElement("strong", null, "Apertura ufficiale"),
+                    " Entri con il tuo boost premio e il tag esclusivo."
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              motion.section,
+              {
+                id: "beta-form",
+                className: "card",
+                initial: { opacity: 0, y: 18 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, amount: 0.3 },
+                transition: { duration: 0.45, ease: "easeOut", delay: 0.05 },
+              },
+              React.createElement(
+                "div",
+                { className: "card-header" },
+                React.createElement(
+                  "h2",
+                  { className: "card-title" },
+                  "Richiedi ",
+                  React.createElement("span", { style: { color: "#f97316" } }, "Accesso Beta")
+                ),
+                React.createElement("div", { className: "card-pill" }, "POSTI LIMITATI")
+              ),
+              React.createElement(
+                "p",
+                { className: "card-subtitle" },
+                "Compila il form in meno di 30 secondi. Ti manderemo via mail: IP del server, slot dedicati alla beta e istruzioni per riscattare il premio all'apertura."
+              ),
+              React.createElement(
+                "form",
+                { className: "form", onSubmit: handleSubmit },
+                React.createElement(
+                  "div",
+                  { className: "form-row-inline" },
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "nickname" },
+                      "Nickname Minecraft ",
+                      React.createElement("span", null, "*")
+                    ),
+                    React.createElement("input", {
+                      id: "nickname",
+                      name: "nickname",
+                      type: "text",
+                      className: "input",
+                      placeholder: "Es. xImperium_",
+                      value: formData.nickname,
+                      onChange: handleChange,
+                    }),
+                    React.createElement(
+                      "div",
+                      { className: "field-hint" },
+                      "Usa il nickname con cui giocherai in beta."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "email" },
+                      "Email ",
+                      React.createElement("span", null, "*")
+                    ),
+                    React.createElement("input", {
+                      id: "email",
+                      name: "email",
+                      type: "email",
+                      className: "input",
+                      placeholder: "tuoindirizzo@email.com",
+                      value: formData.email,
+                      onChange: handleChange,
+                    }),
+                    React.createElement(
+                      "div",
+                      { className: "field-hint" },
+                      "La useremo solo per comunicazioni legate a Imperium."
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-row-inline" },
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "platform" },
+                      "Versione che usi"
+                    ),
+                    React.createElement(
+                      "select",
+                      {
+                        id: "platform",
+                        name: "platform",
+                        className: "select",
+                        value: formData.platform,
+                        onChange: handleChange,
+                      },
+                      React.createElement("option", { value: "" }, "Seleziona"),
+                      React.createElement(
+                        "option",
+                        { value: "java" },
+                        "Minecraft Java Edition"
+                      ),
+                      React.createElement(
+                        "option",
+                        { value: "bedrock" },
+                        "Bedrock / altri"
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "ageRange" },
+                      "Fascia d'et\u00e0"
+                    ),
+                    React.createElement(
+                      "select",
+                      {
+                        id: "ageRange",
+                        name: "ageRange",
+                        className: "select",
+                        value: formData.ageRange,
+                        onChange: handleChange,
+                      },
+                      React.createElement("option", { value: "" }, "Seleziona"),
+                      React.createElement("option", { value: "13-15" }, "13 - 15"),
+                      React.createElement("option", { value: "16-18" }, "16 - 18"),
+                      React.createElement("option", { value: "18-22" }, "18 - 22"),
+                      React.createElement("option", { value: "22+" }, "22+")
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-row-inline" },
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "pvpLevel" },
+                      "Livello PvP"
+                    ),
+                    React.createElement(
+                      "select",
+                      {
+                        id: "pvpLevel",
+                        name: "pvpLevel",
+                        className: "select",
+                        value: formData.pvpLevel,
+                        onChange: handleChange,
+                      },
+                      React.createElement("option", { value: "" }, "Seleziona"),
+                      React.createElement("option", { value: "newbie" }, "Neofita"),
+                      React.createElement("option", { value: "casual" }, "Casual"),
+                      React.createElement("option", { value: "tryhard" }, "Tryhard"),
+                      React.createElement("option", { value: "competitive" }, "Competitivo")
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      { className: "field-label", htmlFor: "faction" },
+                      "Da che parte ti schieri?"
+                    ),
+                    React.createElement(
+                      "select",
+                      {
+                        id: "faction",
+                        name: "faction",
+                        className: "select",
+                        value: formData.faction,
+                        onChange: handleChange,
+                      },
+                      React.createElement("option", { value: "" }, "Seleziona"),
+                      React.createElement("option", { value: "criminal" }, "Criminali"),
+                      React.createElement(
+                        "option",
+                        { value: "police" },
+                        "Forze dell'ordine"
+                      ),
+                      React.createElement("option", { value: "idk" }, "Decider\u00f2 in beta")
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "field" },
+                  React.createElement(
+                    "label",
+                    { className: "field-label", htmlFor: "expectations" },
+                    "Cosa ti aspetti da Imperium?"
+                  ),
+                  React.createElement("textarea", {
+                    id: "expectations",
+                    name: "expectations",
+                    className: "textarea",
+                    placeholder:
+                      "Es. Voglio un server dove il PvP conta davvero, raid di fazione organizzati, economia stabile...",
+                    value: formData.expectations,
+                    onChange: handleChange,
+                  }),
+                  React.createElement(
+                    "div",
+                    { className: "field-hint" },
+                    "Facoltativo ma super utile per bilanciare il server intorno a chi lo gioca."
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "checkbox-row" },
+                  React.createElement("input", {
+                    id: "agree",
+                    name: "agree",
+                    type: "checkbox",
+                    checked: formData.agree,
+                    onChange: handleChange,
+                  }),
+                  React.createElement(
+                    "label",
+                    { htmlFor: "agree" },
+                    React.createElement(
+                      "span",
+                      null,
+                      "Acconsento al trattamento dei dati per ricevere informazioni sulla beta e sull'apertura di Imperium. ",
+                      "Potr\u00f2 cancellarmi in qualsiasi momento."
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "form-footer" },
+                  React.createElement(
+                    "button",
+                    {
+                      className: "btn-primary",
+                      type: "submit",
+                      disabled: submitting,
+                      style: submitting ? { opacity: 0.7, cursor: "wait" } : null,
+                    },
+                    submitting ? "INVIO IN CORSO..." : "INVIA RICHIESTA BETA"
+                  ),
+                  React.createElement(
+                    AnimatePresence,
+                    null,
+                    status.message &&
+                      React.createElement(
+                        motion.div,
+                        {
+                          initial: { opacity: 0, y: 6 },
+                          animate: { opacity: 1, y: 0 },
+                          exit: { opacity: 0, y: -4 },
+                          transition: { duration: 0.2 },
+                          className:
+                            "form-status " +
+                            (status.type === "success"
+                              ? "success"
+                              : status.type === "error"
+                              ? "error"
+                              : ""),
+                        },
+                        status.message
+                      )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "tiny-note" },
+                  "Il server non \u00e8 affiliato a Mojang o Microsoft.",
+                  " Usando questa pagina dichiari di avere l'et\u00e0 minima richiesta dal regolamento del server."
+                )
+              )
+            )
+          ),
+          React.createElement(
+            "footer",
+            null,
+            React.createElement(
+              "div",
+              null,
+              "\u00a9 ",
+              new Date().getFullYear(),
+              " Imperium Network. Tutti i diritti riservati."
+            ),
+            React.createElement(
+              "div",
+              null,
+              React.createElement(
+                "a",
+                { href: "#", onclick: "return false;" },
+                "Informativa privacy"
+              ),
+              " \u2022 ",
+              React.createElement(
+                "a",
+                { href: "#", onclick: "return false;" },
+                "Regolamento server"
+              )
+            )
+          )
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(ImperiumLanding));
+    </script>
+  </body>
+</html>
