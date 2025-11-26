@@ -2,513 +2,345 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <title>Imperium – Beta Access</title>
+    <title>Imperium – Closed Beta</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Imperium è il nuovo server Minecraft Random Death Match a fazioni. Entra nella beta esclusiva del GamesWeek."
+      content="Entra nella beta chiusa di Imperium, il server Minecraft Random Death Match a fazioni."
     />
+
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- STILI -->
     <style>
       :root {
-        --bg-dark: #050812;
-        --bg-card: #0f172a;
-        --accent: #ff3434;
-        --accent-soft: rgba(255, 52, 52, 0.15);
-        --accent-2: #00f3ff;
-        --text-main: #f9fafb;
-        --text-muted: #9ca3af;
-        --border-subtle: rgba(148, 163, 184, 0.35);
-        --radius-lg: 18px;
-        --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.75);
+        --bg: #02010a;
+        --accent: #ff3b2f;
+        --accent-2: #ffc857;
+        --text: #f9fafb;
+        --text-soft: #9ca3af;
+        --card: rgba(10, 10, 16, 0.98);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
       body {
         margin: 0;
-        font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont,
+        padding: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        background: radial-gradient(circle at 0% 0%, #1f2937 0, #020617 45%, #000 100%);
-        color: var(--text-main);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: stretch;
+        background: radial-gradient(circle at 0% 0%, #111827 0, #02010a 55%, #000 100%);
+        color: var(--text);
+        min-height: 100%;
+        -webkit-font-smoothing: antialiased;
       }
 
-      #root {
+      body {
+        display: flex;
+        justify-content: center;
+      }
+
+      #app {
         width: 100%;
       }
 
       .page {
-        max-width: 1100px;
+        max-width: 480px;
         margin: 0 auto;
-        padding: 32px 20px 56px;
-      }
-
-      @media (min-width: 1024px) {
-        .page {
-          padding-top: 40px;
-        }
-      }
-
-      .glow-bg {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: -1;
+        padding: 20px 18px 40px;
+        position: relative;
         overflow: hidden;
       }
 
-      .glow-orb {
-        position: absolute;
+      /* background lights */
+
+      .bg-orb {
+        position: fixed;
+        border-radius: 999px;
+        filter: blur(46px);
+        opacity: 0.85;
+        pointer-events: none;
+        z-index: -1;
+        transform-origin: center;
+        animation: float-orb 24s ease-in-out infinite alternate;
+      }
+
+      .bg-orb.red {
+        width: 360px;
+        height: 360px;
+        right: -160px;
+        top: -140px;
+        background: radial-gradient(circle, #ff3b2f, transparent 70%);
+      }
+
+      .bg-orb.yellow {
+        width: 300px;
+        height: 300px;
+        left: -120px;
+        bottom: -160px;
+        background: radial-gradient(circle, #facc15, transparent 75%);
+        animation-delay: -7s;
+      }
+
+      .bg-orb.dark {
         width: 420px;
         height: 420px;
-        border-radius: 999px;
-        filter: blur(48px);
-        opacity: 0.45;
-        mix-blend-mode: screen;
-        animation: float 18s ease-in-out infinite alternate;
+        left: -220px;
+        top: 20%;
+        background: radial-gradient(circle, #020617, transparent 75%);
+        opacity: 0.6;
+        filter: blur(70px);
+        animation-delay: -12s;
       }
 
-      .glow-orb.orb-red {
-        background: radial-gradient(circle, rgba(248, 113, 113, 0.9), transparent);
-        top: -80px;
-        right: -120px;
-      }
-
-      .glow-orb.orb-cyan {
-        background: radial-gradient(circle, rgba(34, 211, 238, 0.9), transparent);
-        bottom: -120px;
-        left: -100px;
-        animation-delay: -6s;
-      }
-
-      @keyframes float {
+      @keyframes float-orb {
         0% {
           transform: translate3d(0, 0, 0) scale(1);
         }
         100% {
-          transform: translate3d(-40px, 30px, 0) scale(1.1);
+          transform: translate3d(18px, -26px, 0) scale(1.06);
         }
       }
+
+      /* hero */
 
       .hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr);
-        gap: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
       }
 
-      @media (min-width: 960px) {
-        .hero {
-          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr);
-          align-items: center;
-          gap: 40px;
-        }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 9px 3px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(248, 250, 252, 0.18);
+        background: rgba(15, 23, 42, 0.9);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-soft);
       }
 
-      .hero-copy h1 {
+      .tag-pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f97316, #ef4444);
+        color: #000;
+      }
+
+      .tag-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: radial-gradient(circle, #22c55e, #166534);
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+      }
+
+      .hero-title {
         font-family: "Rajdhani", system-ui;
-        font-size: clamp(2.2rem, 3vw + 1rem, 3.4rem);
-        line-height: 1.05;
-        letter-spacing: 0.05em;
+        text-align: center;
+        font-size: 2.3rem;
+        line-height: 1;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        margin: 0 0 8px;
+        margin: 0;
       }
 
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border-radius: 999px;
-        padding: 4px 10px 4px 4px;
-        margin-bottom: 10px;
-        background: linear-gradient(
-          90deg,
-          rgba(248, 250, 252, 0.15),
-          rgba(30, 64, 175, 0.25)
-        );
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        backdrop-filter: blur(12px);
-      }
-
-      .hero-badge-pill {
-        background: radial-gradient(circle at 30% 0, #f97316, #ef4444);
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-weight: 700;
-      }
-
-      .hero-badge-text {
-        font-size: 12px;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        font-weight: 500;
-      }
-
-      .hero-subtitle {
-        font-size: 16px;
-        color: var(--text-muted);
-        max-width: 520px;
-        margin-bottom: 12px;
-      }
-
-      .hero-highlight {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 16px;
+      .hero-sub {
+        margin: 4px 0 0;
+        text-align: center;
         font-size: 13px;
+        color: var(--text-soft);
+        max-width: 320px;
       }
 
-      .hero-highlight span {
-        padding: 4px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.3);
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(12px);
-      }
+      /* logo card */
 
-      .hero-steps {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 20px;
-        font-size: 13px;
-      }
-
-      .hero-step {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(148, 163, 184, 0.4);
-      }
-
-      .hero-step-index {
-        width: 18px;
-        height: 18px;
-        border-radius: 999px;
-        background: var(--accent);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 700;
-      }
-
-      .hero-step span:last-child {
-        color: var(--text-muted);
-      }
-
-      .hero-cta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-
-      .btn-primary {
-        border: none;
-        border-radius: 999px;
-        padding: 12px 22px;
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        cursor: pointer;
-        display: inline-flex;
-        gap: 8px;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #f97316, #ef4444, #b91c1c);
-        color: #fff;
-        box-shadow: 0 18px 40px rgba(248, 113, 113, 0.4);
+      .logo-shell {
         position: relative;
-        overflow: hidden;
+        width: 100%;
+        max-width: 320px;
+        margin-top: 4px;
       }
 
-      .btn-primary::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -60%;
-        width: 40%;
-        height: 100%;
-        background: linear-gradient(
-          120deg,
-          rgba(255, 255, 255, 0.45),
-          transparent
-        );
-        transform: skewX(-20deg);
-        opacity: 0;
-        transition: 0.4s;
-      }
-
-      .btn-primary:hover::after {
-        left: 120%;
-        opacity: 1;
-      }
-
-      .btn-secondary {
-        border-radius: 999px;
-        padding: 10px 18px;
-        font-size: 13px;
-        font-weight: 500;
-        border: 1px solid rgba(148, 163, 184, 0.75);
-        background: rgba(15, 23, 42, 0.7);
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        color: var(--text-muted);
-      }
-
-      .btn-secondary span {
-        font-size: 16px;
-      }
-
-      .hero-caption {
-        font-size: 12px;
-        color: var(--text-muted);
-      }
-
-      .hero-caption strong {
-        color: #e5e7eb;
-      }
-
-      .hero-logo-wrap {
+      .logo-frame {
         position: relative;
-        padding: 18px 16px;
         border-radius: 26px;
-        background: radial-gradient(circle at 0 0, #1e293b, #020617);
-        border: 1px solid rgba(148, 163, 184, 0.45);
-        box-shadow: var(--shadow-card);
+        padding: 18px 16px 14px;
+        background: radial-gradient(circle at 0 0, #0b1120, #02010a);
+        border: 1px solid rgba(248, 250, 252, 0.18);
         overflow: hidden;
+        box-shadow:
+          0 0 40px rgba(239, 68, 68, 0.35),
+          0 22px 60px rgba(15, 23, 42, 0.98);
       }
 
-      .hero-logo-wrap::before {
-        content: "";
+      .logo-glow-ring {
         position: absolute;
         inset: -40%;
-        opacity: 0.4;
-        background-image: radial-gradient(
-            circle at 20% 0,
-            rgba(59, 130, 246, 0.4),
-            transparent 55%
-          ),
-          radial-gradient(
-            circle at 80% 100%,
-            rgba(248, 113, 113, 0.35),
-            transparent 55%
-          );
-        filter: blur(6px);
-        z-index: -1;
+        background:
+          radial-gradient(circle at 20% 0, rgba(252, 211, 77, .4), transparent 60%),
+          radial-gradient(circle at 85% 100%, rgba(239, 68, 68, .6), transparent 65%);
+        opacity: 0.9;
+        mix-blend-mode: screen;
+        animation: pulse-ring 3s ease-in-out infinite;
+        pointer-events: none;
       }
 
-      .hero-logo {
-        width: 100%;
-        max-width: 380px;
-        display: block;
-        margin: 0 auto;
-      }
-
-      .hero-logo-tag {
-        margin-top: 12px;
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        font-size: 11px;
-        color: var(--text-muted);
-      }
-
-      .hero-logo-tag span {
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid rgba(148, 163, 184, 0.5);
-      }
-
-      /* LAYOUT MAIN SECTIONS */
-
-      .layout-main {
-        display: grid;
-        grid-template-columns: minmax(0, 1.05fr);
-        gap: 26px;
-        margin-top: 30px;
-      }
-
-      @media (min-width: 960px) {
-        .layout-main {
-          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-          align-items: flex-start;
+      @keyframes pulse-ring {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.85;
+        }
+        50% {
+          transform: scale(1.06);
+          opacity: 1;
         }
       }
 
-      .card {
-        background: rgba(15, 23, 42, 0.92);
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border-subtle);
-        padding: 18px 18px 20px;
-        box-shadow: var(--shadow-card);
+      .logo-inner {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
       }
 
-      .card-header {
+      .logo-img {
+        width: 100%;
+        max-width: 260px;
+        display: block;
+        animation: float-logo 3.6s ease-in-out infinite;
+        filter:
+          drop-shadow(0 0 26px rgba(248, 250, 252, 0.18))
+          drop-shadow(0 0 40px rgba(248, 113, 113, 0.35));
+      }
+
+      @keyframes float-logo {
+        0%, 100% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(0, -7px, 0) scale(1.02);
+        }
+      }
+
+      .logo-neon {
+        position: absolute;
+        inset: auto 15% -14px;
+        height: 22px;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(252, 211, 77, 0.7), transparent 70%);
+        opacity: 0.9;
+        filter: blur(10px);
+        z-index: 0;
+      }
+
+      .pill-row {
         display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .pill {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(248, 250, 252, 0.22);
+        background: rgba(15, 23, 42, 0.96);
+        color: var(--text-soft);
+      }
+
+      /* card */
+
+      .card {
+        margin-top: 26px;
+        padding: 16px 14px 16px;
+        border-radius: 20px;
+        background: var(--card);
+        border: 1px solid rgba(248, 250, 252, 0.12);
+        box-shadow:
+          0 0 45px rgba(239, 68, 68, 0.18),
+          0 22px 70px rgba(15, 23, 42, 0.98);
       }
 
       .card-title {
         font-family: "Rajdhani", system-ui;
-        font-size: 1.15rem;
-        letter-spacing: 0.06em;
+        font-size: 1.1rem;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
+        margin: 0 0 4px;
       }
 
-      .card-pill {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(148, 163, 184, 0.7);
-        color: var(--text-muted);
+      .card-sub {
+        margin: 0 0 10px;
+        font-size: 12px;
+        color: var(--text-soft);
       }
 
-      .card-subtitle {
-        font-size: 13px;
-        color: var(--text-muted);
-        margin-bottom: 14px;
-      }
-
-      .feature-grid {
+      .features {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
-        gap: 10px;
-        margin-bottom: 6px;
-      }
-
-      @media (min-width: 768px) {
-        .feature-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
-      .feature-chip {
-        padding: 8px 9px;
-        border-radius: 14px;
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        font-size: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-      }
-
-      .feature-chip-title {
-        font-weight: 600;
-      }
-
-      .feature-chip-desc {
-        color: var(--text-muted);
-      }
-
-      .beta-perks {
-        display: grid;
         gap: 8px;
-        margin: 12px 0;
-        font-size: 13px;
+        margin-bottom: 10px;
       }
 
-      .beta-perk {
+      .feat {
+        padding: 8px 9px;
+        border-radius: 13px;
+        background: rgba(15, 23, 42, 0.98);
+        border: 1px solid rgba(248, 250, 252, 0.12);
+        font-size: 11px;
         display: flex;
         gap: 8px;
         align-items: flex-start;
       }
 
-      .beta-perk-icon {
+      .feat-icon {
         width: 18px;
         height: 18px;
         border-radius: 999px;
-        flex-shrink: 0;
-        background: var(--accent-soft);
-        border: 1px solid rgba(248, 113, 113, 0.7);
+        background: radial-gradient(circle, #f97316, #b91c1c);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 11px;
+        flex-shrink: 0;
+        box-shadow: 0 0 14px rgba(248, 113, 113, 0.9);
       }
 
-      .beta-perk strong {
+      .feat strong {
         display: block;
+        margin-bottom: 1px;
       }
 
-      .timeline {
-        margin-top: 14px;
-        padding-top: 10px;
-        border-top: 1px dashed rgba(148, 163, 184, 0.5);
-      }
-
-      .timeline-row {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        font-size: 12px;
-        color: var(--text-muted);
-        margin-bottom: 5px;
-      }
-
-      .timeline-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: var(--accent-2);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
-      }
-
-      .timeline-row strong {
-        color: #e5e7eb;
-        margin-right: 4px;
-      }
-
-      /* FORM */
+      /* form */
 
       .form {
         display: grid;
         gap: 10px;
-      }
-
-      .form-row-inline {
-        display: grid;
-        gap: 10px;
-      }
-
-      @media (min-width: 640px) {
-        .form-row-inline {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        margin-top: 12px;
       }
 
       .field {
@@ -517,54 +349,49 @@
         gap: 4px;
       }
 
-      .field-label {
-        font-size: 12px;
+      .label {
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--text-muted);
+        letter-spacing: 0.16em;
+        color: var(--text-soft);
       }
 
-      .field-label span {
-        color: #f97316;
+      .label span {
+        color: var(--accent-2);
       }
 
-      .input,
-      .select,
-      .textarea {
-        border-radius: 12px;
-        border: 1px solid rgba(148, 163, 184, 0.7);
-        background: rgba(15, 23, 42, 0.9);
-        padding: 9px 11px;
-        color: var(--text-main);
+      .input {
+        border-radius: 999px;
+        border: 1px solid rgba(248, 250, 252, 0.18);
+        background: radial-gradient(circle at 0 0, #020617, #02010a);
+        padding: 9px 12px;
         font-size: 13px;
+        color: var(--text);
         outline: none;
-        transition: border-color 0.18s ease, box-shadow 0.18s ease,
-          background 0.18s ease;
+        -webkit-appearance: none;
+        transition: border-color 0.16s ease, box-shadow 0.16s ease,
+          background 0.16s ease, transform 0.06s ease;
       }
 
-      .textarea {
-        resize: vertical;
-        min-height: 70px;
-      }
-
-      .input:focus,
-      .select:focus,
-      .textarea:focus {
+      .input:focus {
         border-color: var(--accent-2);
-        box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.7);
-        background: rgba(15, 23, 42, 0.98);
+        box-shadow:
+          0 0 0 1px rgba(252, 211, 77, 0.9),
+          0 0 22px rgba(250, 204, 21, 0.5);
+        background: radial-gradient(circle at 0 0, #020617, #030712);
+        transform: translateY(-1px);
       }
 
-      .field-hint {
-        font-size: 11px;
-        color: var(--text-muted);
+      .hint {
+        font-size: 10px;
+        color: var(--text-soft);
       }
 
       .checkbox-row {
         display: flex;
         align-items: flex-start;
-        gap: 8px;
-        margin-top: 4px;
+        gap: 7px;
+        margin-top: 2px;
       }
 
       .checkbox-row input {
@@ -572,755 +399,510 @@
       }
 
       .checkbox-row span {
-        font-size: 11px;
-        color: var(--text-muted);
+        font-size: 10px;
+        color: var(--text-soft);
       }
 
-      .form-footer {
+      /* button */
+
+      .btn-wrap {
+        margin-top: 12px;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 10px;
+        flex-direction: column;
         gap: 6px;
-        flex-wrap: wrap;
+        align-items: stretch;
       }
 
-      .form-status {
-        font-size: 12px;
+      .btn {
+        border-radius: 999px;
+        padding: 11px 18px;
+        border: none;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        color: #111827;
+        position: relative;
+        overflow: hidden;
+        background: conic-gradient(
+          from 220deg,
+          #facc15,
+          #f97316,
+          #ef4444,
+          #b91c1c,
+          #facc15
+        );
+        box-shadow:
+          0 0 28px rgba(248, 113, 113, 0.6),
+          0 0 90px rgba(239, 68, 68, 0.55);
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
       }
 
-      .form-status.success {
-        color: #4ade80;
+      .btn-inner {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding-inline: 4px;
       }
 
-      .form-status.error {
+      .btn-glow {
+        position: absolute;
+        inset: 2px;
+        border-radius: inherit;
+        background: radial-gradient(circle at 0 0, #fefce8, #f97316);
+        opacity: 0.9;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background:
+          radial-gradient(circle at 0 0, rgba(254, 249, 195, 0.8), transparent 55%),
+          radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.8), transparent 60%);
+        opacity: 0.7;
+        mix-blend-mode: screen;
+        animation: btn-glow 3s ease-in-out infinite;
+      }
+
+      .btn span.icon {
+        font-size: 1.1rem;
+        transform: translateY(0.5px);
+      }
+
+      @keyframes btn-glow {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.08);
+          opacity: 1;
+        }
+      }
+
+      .btn:hover {
+        transform: translateY(-1px) scale(1.01);
+        box-shadow:
+          0 0 34px rgba(248, 113, 113, 0.7),
+          0 0 110px rgba(239, 68, 68, 0.7);
+      }
+
+      .btn:active {
+        transform: translateY(1px) scale(0.99);
+      }
+
+      .btn-caption {
+        font-size: 10px;
+        text-align: center;
+        color: var(--text-soft);
+      }
+
+      .status {
+        min-height: 12px;
+        font-size: 11px;
+        text-align: center;
+        margin-top: 4px;
+        color: var(--text-soft);
+      }
+
+      .status.error {
         color: #f97373;
       }
 
-      .tiny-note {
-        font-size: 11px;
-        color: var(--text-muted);
-        margin-top: 6px;
+      /* success screen */
+
+      .success {
+        display: none;
+        text-align: center;
+        padding: 4px 4px 0;
+        animation: fade-in 0.5s ease-out forwards;
       }
+
+      .success-icon-wrap {
+        width: 60px;
+        height: 60px;
+        border-radius: 999px;
+        margin: 0 auto 10px;
+        background: radial-gradient(circle, #22c55e, #15803d);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          0 0 28px rgba(34, 197, 94, 0.7),
+          0 0 60px rgba(21, 128, 61, 0.7);
+      }
+
+      .success-icon {
+        font-size: 30px;
+        color: #ecfdf5;
+      }
+
+      .success-title {
+        font-family: "Rajdhani", system-ui;
+        font-size: 1.4rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin: 4px 0 6px;
+      }
+
+      .success-text {
+        font-size: 12px;
+        color: var(--text-soft);
+        margin-bottom: 12px;
+      }
+
+      .success-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        color: #020617;
+        border: none;
+        cursor: pointer;
+      }
+
+      .social-btn.telegram {
+        background: radial-gradient(circle at 0 0, #e0f2fe, #0ea5e9);
+        box-shadow: 0 0 24px rgba(14, 165, 233, 0.55);
+      }
+
+      .social-btn.discord {
+        background: radial-gradient(circle at 0 0, #e0e7ff, #6366f1);
+        box-shadow: 0 0 24px rgba(99, 102, 241, 0.55);
+      }
+
+      .social-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: #020617;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #e5e7eb;
+        font-size: 11px;
+      }
+
+      .success-note {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* footer with buttons */
 
       footer {
-        margin-top: 26px;
-        font-size: 11px;
-        color: var(--text-muted);
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
+        margin-top: 22px;
+        font-size: 10px;
+        text-align: center;
+        color: var(--text-soft);
       }
 
-      footer a {
-        color: #9ca3af;
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
+      footer strong {
+        color: var(--text);
+      }
+
+      .footer-social-row {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .footer-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        text-decoration: none;
+        color: var(--text);
+        border: 1px solid rgba(248, 250, 252, 0.18);
+        background: rgba(15, 23, 42, 0.96);
+      }
+
+      .footer-pill-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        background: #0f172a;
+      }
+
+      @media (min-width: 640px) {
+        .page {
+          max-width: 520px;
+          padding-top: 28px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="glow-bg">
-      <div class="glow-orb orb-red"></div>
-      <div class="glow-orb orb-cyan"></div>
+    <div class="bg-orb dark"></div>
+    <div class="bg-orb red"></div>
+    <div class="bg-orb yellow"></div>
+
+    <div id="app">
+      <main class="page">
+        <header class="hero">
+          <div class="tag">
+            <span class="tag-pill">Closed beta</span>
+            <span class="tag-dot"></span>
+            <span>GamesWeek Milano</span>
+          </div>
+          <h1 class="hero-title">IMPERIUM</h1>
+          <p class="hero-sub">Random Death Match a fazioni. Città viva, guerra continua, nessuno è al sicuro.</p>
+
+          <div class="logo-shell">
+            <div class="logo-frame">
+              <div class="logo-glow-ring"></div>
+              <div class="logo-inner">
+                <img src="imperium-logo.png" alt="Logo Imperium" class="logo-img" />
+                <div class="logo-neon"></div>
+              </div>
+            </div>
+            <div class="pill-row">
+              <span class="pill">Minecraft Java</span>
+              <span class="pill">Random Death Match</span>
+              <span class="pill">Fazioni</span>
+            </div>
+          </div>
+        </header>
+
+        <section class="card">
+          <div id="card-content">
+            <h2 class="card-title">Server</h2>
+            <p class="card-sub">
+              Imperium è un server PvP dove la città è il tuo campo di battaglia. Giri in auto, apri il fuoco e difendi la fazione a ogni respawn.
+            </p>
+
+            <div class="features">
+              <div class="feat">
+                <div class="feat-icon">🚗</div>
+                <div>
+                  <strong>Veicoli custom</strong>
+                  Modelli realistici creati da zero, guidabili in città e durante i combattimenti.
+                </div>
+              </div>
+              <div class="feat">
+                <div class="feat-icon">🔫</div>
+                <div>
+                  <strong>Armi HD</strong>
+                  Armi in altissima qualità con mirini, caricatori e skin per il tuo loadout.
+                </div>
+              </div>
+              <div class="feat">
+                <div class="feat-icon">⚔️</div>
+                <div>
+                  <strong>Raid di fazione</strong>
+                  Attacchi coordinati, difese, push di squadra per controllare le zone della città.
+                </div>
+              </div>
+            </div>
+
+            <form class="form" id="beta-form">
+              <div class="field">
+                <label class="label" for="nickname">Nickname Minecraft <span>*</span></label>
+                <input
+                  id="nickname"
+                  name="nickname"
+                  type="text"
+                  class="input"
+                  autocomplete="off"
+                  placeholder="MrLollo"
+                />
+              </div>
+
+              <div class="field">
+                <label class="label" for="email">Email <span>*</span></label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="input"
+                  autocomplete="off"
+                  placeholder="tuoindirizzo@email.com"
+                />
+                <div class="hint">Solo accesso beta + info sul boost di lancio.</div>
+              </div>
+
+              <div class="checkbox-row">
+                <input id="agree" name="agree" type="checkbox" />
+                <label for="agree">
+                  <span>Accetto che la mia mail venga usata per comunicazioni legate a Imperium.</span>
+                </label>
+              </div>
+
+              <div class="btn-wrap">
+                <button class="btn" type="submit">
+                  <div class="btn-glow"></div>
+                  <div class="btn-inner">
+                    <span>ENTRA IN BETA</span>
+                    <span class="icon">↗</span>
+                  </div>
+                </button>
+                <div class="btn-caption">
+                  Accesso riservato a chi ha scansionato il QR durante il GamesWeek.
+                </div>
+                <div class="status" id="status">
+                  Compila nickname, email e privacy per entrare in lista.
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="success" id="success-screen">
+            <div class="success-icon-wrap">
+              <div class="success-icon">✓</div>
+            </div>
+            <h3 class="success-title">SEI DENTRO</h3>
+            <p class="success-text">
+              Ti invieremo via mail l'accesso alla beta e il boost speciale per il day one.
+              Ora unisciti ai canali ufficiali così non ti perdi nulla.
+            </p>
+
+            <div class="success-links">
+              <a
+                href="https://t.me/ImperiumCity"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn telegram"
+              >
+                <span class="social-icon">✈</span>
+                <span>Unisciti al canale Telegram</span>
+              </a>
+              <a
+                href="https://discord.imperiumcity.it"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn discord"
+              >
+                <span class="social-icon">Δ</span>
+                <span>Entra nel server Discord</span>
+              </a>
+            </div>
+
+            <p class="success-note">
+              Rimani connesso soprattutto su <strong>Telegram</strong>: lì annunceremo prima di tutti
+              l'apertura della beta, gli orari dei test e la data della release ufficiale.
+              Su <strong>Discord</strong> troverai le fazioni, i canali vocali e gli eventi community.
+            </p>
+          </div>
+        </section>
+
+        <footer>
+          <div><strong>Imperium Network</strong> • Preparati a spawnare in guerra.</div>
+          <div class="footer-social-row">
+            <a
+              href="https://t.me/ImperiumCity"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-pill"
+            >
+              <span class="footer-pill-icon">✈</span>
+              <span>Telegram</span>
+            </a>
+            <a
+              href="https://discord.imperiumcity.it"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-pill"
+            >
+              <span class="footer-pill-icon">♜</span>
+              <span>Discord</span>
+            </a>
+          </div>
+        </footer>
+      </main>
     </div>
 
-    <div id="root"></div>
-
-    <!-- REACT + FRAMER MOTION -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
-
     <script>
-      const { useState } = React;
-      const { motion, AnimatePresence } = window["framer-motion"];
+      const form = document.getElementById("beta-form");
+      const statusEl = document.getElementById("status");
+      const cardContent = document.getElementById("card-content");
+      const successScreen = document.getElementById("success-screen");
 
-      function ImperiumLanding() {
-        const [formData, setFormData] = useState({
-          nickname: "",
-          email: "",
-          platform: "",
-          ageRange: "",
-          pvpLevel: "",
-          faction: "",
-          expectations: "",
-          agree: false,
-        });
-
-        const [status, setStatus] = useState({ type: "", message: "" });
-        const [submitting, setSubmitting] = useState(false);
-
-        function handleChange(e) {
-          const { name, value, type, checked } = e.target;
-          setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-          }));
-        }
-
-        async function handleSubmit(e) {
-          e.preventDefault();
-          setStatus({ type: "", message: "" });
-
-          if (!formData.nickname || !formData.email || !formData.agree) {
-            setStatus({
-              type: "error",
-              message: "Compila nickname, email e accetta la privacy per continuare.",
-            });
-            return;
-          }
-
-          setSubmitting(true);
-
-          try {
-            // TODO: sostituisci con la tua endpoint (es. /api/beta-signup.php)
-            // qui simulo soltanto
-            await new Promise((res) => setTimeout(res, 900));
-
-            setStatus({
-              type: "success",
-              message:
-                "Sei dentro! Controlla la mail: riceverai le istruzioni per entrare nella beta.",
-            });
-
-            // opzionale: reset parziale
-            setFormData((prev) => ({
-              ...prev,
-              nickname: "",
-              email: "",
-              expectations: "",
-            }));
-          } catch (err) {
-            console.error(err);
-            setStatus({
-              type: "error",
-              message:
-                "Errore temporaneo. Riprova tra qualche minuto oppure contatta lo staff di Imperium.",
-            });
-          } finally {
-            setSubmitting(false);
-          }
-        }
-
-        function scrollToForm() {
-          const formEl = document.getElementById("beta-form");
-          if (formEl) {
-            formEl.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }
-
-        return React.createElement(
-          "main",
-          { className: "page" },
-          React.createElement(
-            motion.section,
-            {
-              className: "hero",
-              initial: { opacity: 0, y: 18 },
-              animate: { opacity: 1, y: 0 },
-              transition: { duration: 0.6, ease: "easeOut" },
-            },
-            React.createElement(
-              "div",
-              { className: "hero-copy" },
-              React.createElement(
-                "div",
-                { className: "hero-badge" },
-                React.createElement(
-                  "div",
-                  { className: "hero-badge-pill" },
-                  "GamesWeek Exclusive"
-                ),
-                React.createElement(
-                  "div",
-                  { className: "hero-badge-text" },
-                  "QR Code Access \u2022 Closed Beta"
-                )
-              ),
-              React.createElement(
-                "h1",
-                null,
-                "Imperium",
-                React.createElement("br", null),
-                "Random Death Match a Fazioni"
-              ),
-              React.createElement(
-                "p",
-                { className: "hero-subtitle" },
-                "Criminali vs forze dell'ordine, raid, appartamenti, veicoli e PvP al limite. ",
-                "Se stai vedendo questa pagina sei tra i pochi invitati alla beta chiusa."
-              ),
-              React.createElement(
-                "div",
-                { className: "hero-highlight" },
-                React.createElement("span", null, "Raid tattici e bossbar di guerra"),
-                React.createElement("span", null, "Appartamenti da proteggere e affittare"),
-                React.createElement("span", null, "Armi ispirate a Rainbow Six / CoD"),
-                React.createElement("span", null, "Progressione rank competitiva")
-              ),
-              React.createElement(
-                "div",
-                { className: "hero-steps" },
-                React.createElement(
-                  "div",
-                  { className: "hero-step" },
-                  React.createElement("div", { className: "hero-step-index" }, "1"),
-                  React.createElement("span", null, "Compila il form"),
-                  React.createElement("span", null, "email + nickname Minecraft")
-                ),
-                React.createElement(
-                  "div",
-                  { className: "hero-step" },
-                  React.createElement("div", { className: "hero-step-index" }, "2"),
-                  React.createElement("span", null, "Ricevi l'accesso alla beta"),
-                  React.createElement(
-                    "span",
-                    null,
-                    "e joini il server prima degli altri"
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "hero-step" },
-                  React.createElement("div", { className: "hero-step-index" }, "3"),
-                  React.createElement("span", null, "Ottieni il bonus launch"),
-                  React.createElement(
-                    "span",
-                    null,
-                    "boost esclusivo all'apertura ufficiale"
-                  )
-                )
-              ),
-              React.createElement(
-                "div",
-                { className: "hero-cta-row" },
-                React.createElement(
-                  "button",
-                  { className: "btn-primary", onClick: scrollToForm },
-                  "ENTRA NELLA BETA",
-                  React.createElement("span", null, "\u27a4")
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    type: "button",
-                    className: "btn-secondary",
-                    onClick: scrollToForm,
-                  },
-                  React.createElement("span", null, "\u25cf"),
-                  "Posti limitati solo per il GamesWeek"
-                )
-              ),
-              React.createElement(
-                "p",
-                { className: "hero-caption" },
-                React.createElement("strong", null, "Nessun spam."),
-                " Useremo la tua mail solo per inviarti IP del server, orari della beta e il premio di lancio."
-              )
-            ),
-            React.createElement(
-              motion.div,
-              {
-                className: "hero-logo-wrap",
-                initial: { opacity: 0, scale: 0.9, y: 10 },
-                animate: { opacity: 1, scale: 1, y: 0 },
-                transition: { delay: 0.1, duration: 0.5, ease: "easeOut" },
-              },
-              React.createElement("img", {
-                src: "imperium-logo.png",
-                alt: "Logo Imperium server Minecraft",
-                className: "hero-logo",
-              }),
-              React.createElement(
-                "div",
-                { className: "hero-logo-tag" },
-                React.createElement("span", null, "Minecraft Java Edition"),
-                React.createElement("span", null, "Modalità: Random Death Match"),
-                React.createElement("span", null, "Fazioni: Criminali vs Polizia")
-              )
-            )
-          ),
-          React.createElement(
-            "section",
-            { className: "layout-main" },
-            React.createElement(
-              motion.section,
-              {
-                className: "card",
-                initial: { opacity: 0, y: 18 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true, amount: 0.3 },
-                transition: { duration: 0.45, ease: "easeOut" },
-              },
-              React.createElement(
-                "div",
-                { className: "card-header" },
-                React.createElement(
-                  "h2",
-                  { className: "card-title" },
-                  "Cosa ti aspetta su ",
-                  React.createElement("span", { style: { color: "#f97316" } }, "Imperium"),
-                  "?"
-                ),
-                React.createElement("div", { className: "card-pill" }, "HIGH RISK / HIGH REWARD")
-              ),
-              React.createElement(
-                "p",
-                { className: "card-subtitle" },
-                "Imperium \u00e8 un server PvP adrenalinico: ogni volta che entri puoi perdere tutto o salire di rango. ",
-                "Le fazioni si organizzano in gang, proteggono i propri appartamenti, pianificano raid e si contendono il controllo della citt\u00e0."
-              ),
-              React.createElement(
-                "div",
-                { className: "feature-grid" },
-                React.createElement(
-                  "div",
-                  { className: "feature-chip" },
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-title" },
-                    "Raid & assalti programmati"
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-desc" },
-                    "C4, bossbar globale, tempo limitato, difesa organizzata. Ogni errore costa caro."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "feature-chip" },
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-title" },
-                    "Appartamenti e bunker"
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-desc" },
-                    "Affitta, arreda, nascondi il tuo loot e difendilo quando scatta l'allarme."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "feature-chip" },
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-title" },
-                    "Armi e loadout"
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-desc" },
-                    "Armeria ispirata a Rainbow Six e CoD. Mitragliette, fucili d'assalto, rarit\u00e0 e personalizzazioni."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "feature-chip" },
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-title" },
-                    "Rank & competitive"
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "feature-chip-desc" },
-                    "Sistema rank, statistiche, kill effect, duelli 1v1 per dimostrare chi merita la vetta."
-                  )
-                )
-              ),
-              React.createElement(
-                "div",
-                { className: "beta-perks" },
-                React.createElement(
-                  "div",
-                  { className: "beta-perk" },
-                  React.createElement("div", { className: "beta-perk-icon" }, "\u2605"),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Tag esclusivo in game"),
-                    "Solo chi arriva dalla beta GamesWeek avr\u00e0 un riconoscimento visivo permanente."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "beta-perk" },
-                  React.createElement("div", { className: "beta-perk-icon" }, "\ud83d\udcac"),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Accesso prioritario allo staff"),
-                    "Suggerisci idee, segnala bug, influenzi direttamente come nascer\u00e0 il server."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "beta-perk" },
-                  React.createElement("div", { className: "beta-perk-icon" }, "\ud83d\udca1"),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Boost alla release ufficiale"),
-                    "Drop iniziale potenziato (soldi, kit o altro bonus) riservato solo ai tester beta."
-                  )
-                )
-              ),
-              React.createElement(
-                "div",
-                { className: "timeline" },
-                React.createElement(
-                  "div",
-                  { className: "timeline-row" },
-                  React.createElement("div", { className: "timeline-dot" }),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Fiera & QR code"),
-                    " Registri nickname e mail da questa landing."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "timeline-row" },
-                  React.createElement("div", { className: "timeline-dot" }),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Beta chiusa"),
-                    " Ricevi IP, orari dedicati e canale Discord riservato."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "timeline-row" },
-                  React.createElement("div", { className: "timeline-dot" }),
-                  React.createElement(
-                    "div",
-                    null,
-                    React.createElement("strong", null, "Apertura ufficiale"),
-                    " Entri con il tuo boost premio e il tag esclusivo."
-                  )
-                )
-              )
-            ),
-            React.createElement(
-              motion.section,
-              {
-                id: "beta-form",
-                className: "card",
-                initial: { opacity: 0, y: 18 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true, amount: 0.3 },
-                transition: { duration: 0.45, ease: "easeOut", delay: 0.05 },
-              },
-              React.createElement(
-                "div",
-                { className: "card-header" },
-                React.createElement(
-                  "h2",
-                  { className: "card-title" },
-                  "Richiedi ",
-                  React.createElement("span", { style: { color: "#f97316" } }, "Accesso Beta")
-                ),
-                React.createElement("div", { className: "card-pill" }, "POSTI LIMITATI")
-              ),
-              React.createElement(
-                "p",
-                { className: "card-subtitle" },
-                "Compila il form in meno di 30 secondi. Ti manderemo via mail: IP del server, slot dedicati alla beta e istruzioni per riscattare il premio all'apertura."
-              ),
-              React.createElement(
-                "form",
-                { className: "form", onSubmit: handleSubmit },
-                React.createElement(
-                  "div",
-                  { className: "form-row-inline" },
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "nickname" },
-                      "Nickname Minecraft ",
-                      React.createElement("span", null, "*")
-                    ),
-                    React.createElement("input", {
-                      id: "nickname",
-                      name: "nickname",
-                      type: "text",
-                      className: "input",
-                      placeholder: "Es. xImperium_",
-                      value: formData.nickname,
-                      onChange: handleChange,
-                    }),
-                    React.createElement(
-                      "div",
-                      { className: "field-hint" },
-                      "Usa il nickname con cui giocherai in beta."
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "email" },
-                      "Email ",
-                      React.createElement("span", null, "*")
-                    ),
-                    React.createElement("input", {
-                      id: "email",
-                      name: "email",
-                      type: "email",
-                      className: "input",
-                      placeholder: "tuoindirizzo@email.com",
-                      value: formData.email,
-                      onChange: handleChange,
-                    }),
-                    React.createElement(
-                      "div",
-                      { className: "field-hint" },
-                      "La useremo solo per comunicazioni legate a Imperium."
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "form-row-inline" },
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "platform" },
-                      "Versione che usi"
-                    ),
-                    React.createElement(
-                      "select",
-                      {
-                        id: "platform",
-                        name: "platform",
-                        className: "select",
-                        value: formData.platform,
-                        onChange: handleChange,
-                      },
-                      React.createElement("option", { value: "" }, "Seleziona"),
-                      React.createElement(
-                        "option",
-                        { value: "java" },
-                        "Minecraft Java Edition"
-                      ),
-                      React.createElement(
-                        "option",
-                        { value: "bedrock" },
-                        "Bedrock / altri"
-                      )
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "ageRange" },
-                      "Fascia d'et\u00e0"
-                    ),
-                    React.createElement(
-                      "select",
-                      {
-                        id: "ageRange",
-                        name: "ageRange",
-                        className: "select",
-                        value: formData.ageRange,
-                        onChange: handleChange,
-                      },
-                      React.createElement("option", { value: "" }, "Seleziona"),
-                      React.createElement("option", { value: "13-15" }, "13 - 15"),
-                      React.createElement("option", { value: "16-18" }, "16 - 18"),
-                      React.createElement("option", { value: "18-22" }, "18 - 22"),
-                      React.createElement("option", { value: "22+" }, "22+")
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "form-row-inline" },
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "pvpLevel" },
-                      "Livello PvP"
-                    ),
-                    React.createElement(
-                      "select",
-                      {
-                        id: "pvpLevel",
-                        name: "pvpLevel",
-                        className: "select",
-                        value: formData.pvpLevel,
-                        onChange: handleChange,
-                      },
-                      React.createElement("option", { value: "" }, "Seleziona"),
-                      React.createElement("option", { value: "newbie" }, "Neofita"),
-                      React.createElement("option", { value: "casual" }, "Casual"),
-                      React.createElement("option", { value: "tryhard" }, "Tryhard"),
-                      React.createElement("option", { value: "competitive" }, "Competitivo")
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "field" },
-                    React.createElement(
-                      "label",
-                      { className: "field-label", htmlFor: "faction" },
-                      "Da che parte ti schieri?"
-                    ),
-                    React.createElement(
-                      "select",
-                      {
-                        id: "faction",
-                        name: "faction",
-                        className: "select",
-                        value: formData.faction,
-                        onChange: handleChange,
-                      },
-                      React.createElement("option", { value: "" }, "Seleziona"),
-                      React.createElement("option", { value: "criminal" }, "Criminali"),
-                      React.createElement(
-                        "option",
-                        { value: "police" },
-                        "Forze dell'ordine"
-                      ),
-                      React.createElement("option", { value: "idk" }, "Decider\u00f2 in beta")
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "field" },
-                  React.createElement(
-                    "label",
-                    { className: "field-label", htmlFor: "expectations" },
-                    "Cosa ti aspetti da Imperium?"
-                  ),
-                  React.createElement("textarea", {
-                    id: "expectations",
-                    name: "expectations",
-                    className: "textarea",
-                    placeholder:
-                      "Es. Voglio un server dove il PvP conta davvero, raid di fazione organizzati, economia stabile...",
-                    value: formData.expectations,
-                    onChange: handleChange,
-                  }),
-                  React.createElement(
-                    "div",
-                    { className: "field-hint" },
-                    "Facoltativo ma super utile per bilanciare il server intorno a chi lo gioca."
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "checkbox-row" },
-                  React.createElement("input", {
-                    id: "agree",
-                    name: "agree",
-                    type: "checkbox",
-                    checked: formData.agree,
-                    onChange: handleChange,
-                  }),
-                  React.createElement(
-                    "label",
-                    { htmlFor: "agree" },
-                    React.createElement(
-                      "span",
-                      null,
-                      "Acconsento al trattamento dei dati per ricevere informazioni sulla beta e sull'apertura di Imperium. ",
-                      "Potr\u00f2 cancellarmi in qualsiasi momento."
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "form-footer" },
-                  React.createElement(
-                    "button",
-                    {
-                      className: "btn-primary",
-                      type: "submit",
-                      disabled: submitting,
-                      style: submitting ? { opacity: 0.7, cursor: "wait" } : null,
-                    },
-                    submitting ? "INVIO IN CORSO..." : "INVIA RICHIESTA BETA"
-                  ),
-                  React.createElement(
-                    AnimatePresence,
-                    null,
-                    status.message &&
-                      React.createElement(
-                        motion.div,
-                        {
-                          initial: { opacity: 0, y: 6 },
-                          animate: { opacity: 1, y: 0 },
-                          exit: { opacity: 0, y: -4 },
-                          transition: { duration: 0.2 },
-                          className:
-                            "form-status " +
-                            (status.type === "success"
-                              ? "success"
-                              : status.type === "error"
-                              ? "error"
-                              : ""),
-                        },
-                        status.message
-                      )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "tiny-note" },
-                  "Il server non \u00e8 affiliato a Mojang o Microsoft.",
-                  " Usando questa pagina dichiari di avere l'et\u00e0 minima richiesta dal regolamento del server."
-                )
-              )
-            )
-          ),
-          React.createElement(
-            "footer",
-            null,
-            React.createElement(
-              "div",
-              null,
-              "\u00a9 ",
-              new Date().getFullYear(),
-              " Imperium Network. Tutti i diritti riservati."
-            ),
-            React.createElement(
-              "div",
-              null,
-              React.createElement(
-                "a",
-                { href: "#", onclick: "return false;" },
-                "Informativa privacy"
-              ),
-              " \u2022 ",
-              React.createElement(
-                "a",
-                { href: "#", onclick: "return false;" },
-                "Regolamento server"
-              )
-            )
-          )
-        );
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       }
 
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(React.createElement(ImperiumLanding));
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const nickname = document.getElementById("nickname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const agree = document.getElementById("agree").checked;
+
+        if (!nickname || !email || !agree) {
+          statusEl.textContent =
+            "Compila nickname, email e accetta la privacy per continuare.";
+          statusEl.classList.add("error");
+          return;
+        }
+
+        if (!isValidEmail(email)) {
+          statusEl.textContent = "Inserisci un indirizzo email valido.";
+          statusEl.classList.add("error");
+          return;
+        }
+
+        // tutto ok: mostra la schermata di successo
+        cardContent.style.display = "none";
+        successScreen.style.display = "block";
+      });
+
+      // Intro animation card
+      const card = document.querySelector(".card");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              card.style.transition = "opacity 0.55s ease-out, transform 0.55s ease-out";
+              card.style.opacity = "1";
+              card.style.transform = "translateY(0)";
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      card.style.opacity = "0";
+      card.style.transform = "translateY(20px)";
+      observer.observe(card);
     </script>
   </body>
 </html>
