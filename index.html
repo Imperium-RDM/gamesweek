@@ -1,867 +1,231 @@
 <!doctype html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Imperium – Closed Beta</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Entra nella beta chiusa di Imperium, il server Minecraft Random Death Match a fazioni."
-    />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imperium – Beta</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text: #f9fafb;
+  --text-soft: #d1d5db;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family:"Inter",sans-serif;
+  color:var(--text);
+  background:#000;
+  position:relative;
+  overflow-x:hidden;
+}
 
-    <!-- FONT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <style>
-      :root {
-        --bg: #02010a;
-        --accent: #ff3b2f;
-        --accent-2: #ffc857;
-        --text: #f9fafb;
-        --text-soft: #9ca3af;
-        --card: rgba(10, 10, 16, 0.98);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-        background: radial-gradient(circle at 0% 0%, #111827 0, #02010a 55%, #000 100%);
-        color: var(--text);
-        min-height: 100%;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      body {
-        display: flex;
-        justify-content: center;
-        position: relative;
-        overflow-x: hidden;
-      }
-
-      /* big blurred logo background */
-      body::before {
+    body::before {
         content: "";
         position: fixed;
-        inset: -40%;
-        background-image: url("imperium-logo.png");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 70%;
-        filter: blur(38px);
-        opacity: 0.18;
-        mix-blend-mode: screen;
-        pointer-events: none;
-        z-index: -3;
-      }
-
-      #app {
-        width: 100%;
-      }
-
-      .page {
-        max-width: 480px;
-        margin: 0 auto;
-        padding: 22px 18px 42px;
-        position: relative;
-      }
-
-      /* background lights */
-
-      .bg-orb {
-        position: fixed;
-        border-radius: 999px;
-        filter: blur(46px);
-        opacity: 0.85;
-        pointer-events: none;
+        inset: 0;
+        background: url('imperium-logo.png') center/65% no-repeat;
+        filter: blur(90px) brightness(0.35);
+        opacity: 0.9;
         z-index: -2;
-        transform-origin: center;
-        animation: float-orb 24s ease-in-out infinite alternate;
-      }
-
-      .bg-orb.red {
-        width: 360px;
-        height: 360px;
-        right: -160px;
-        top: -140px;
-        background: radial-gradient(circle, #ff3b2f, transparent 70%);
-      }
-
-      .bg-orb.yellow {
-        width: 300px;
-        height: 300px;
-        left: -120px;
-        bottom: -160px;
-        background: radial-gradient(circle, #facc15, transparent 75%);
-        animation-delay: -7s;
-      }
-
-      .bg-orb.dark {
-        width: 420px;
-        height: 420px;
-        left: -220px;
-        top: 20%;
-        background: radial-gradient(circle, #020617, transparent 75%);
-        opacity: 0.6;
-        filter: blur(70px);
-        animation-delay: -12s;
-      }
-
-      @keyframes float-orb {
-        0% {
-          transform: translate3d(0, 0, 0) scale(1);
-        }
-        100% {
-          transform: translate3d(18px, -26px, 0) scale(1.06);
-        }
-      }
-
-      /* hero */
-
-      .hero {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 18px;
-        margin-bottom: 26px;
-      }
-
-      .tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 3px 10px 3px 7px;
-        border-radius: 999px;
-        border: 1px solid rgba(248, 250, 252, 0.18);
-        background: rgba(15, 23, 42, 0.9);
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--text-soft);
-      }
-
-      .tag-pill {
-        padding: 3px 8px;
-        border-radius: 999px;
-        font-size: 10px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        font-weight: 700;
-        background: linear-gradient(135deg, #f97316, #ef4444);
-        color: #000;
-      }
-
-      .tag-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: radial-gradient(circle, #22c55e, #166534);
-        box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-      }
-
-      .hero-title {
-        font-family: "Rajdhani", system-ui;
-        text-align: center;
-        font-size: 2.6rem;
-        line-height: 1;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        margin: 0;
-      }
-
-      .hero-sub {
-        margin: 6px 0 0;
-        text-align: center;
-        font-size: 14px;
-        color: var(--text-soft);
-        max-width: 340px;
-      }
-
-      /* logo card */
-
-      .logo-shell {
-        position: relative;
-        width: 100%;
-        max-width: 320px;
-        margin-top: 6px;
-      }
-
-      .logo-frame {
-        position: relative;
-        border-radius: 26px;
-        padding: 20px 18px 16px;
-        background: radial-gradient(circle at 0 0, #0b1120, #02010a);
-        border: 1px solid rgba(248, 250, 252, 0.18);
-        overflow: hidden;
-        box-shadow:
-          0 0 40px rgba(239, 68, 68, 0.35),
-          0 22px 60px rgba(15, 23, 42, 0.98);
-      }
-
-      .logo-glow-ring {
-        position: absolute;
-        inset: -40%;
-        background:
-          radial-gradient(circle at 20% 0, rgba(252, 211, 77, .4), transparent 60%),
-          radial-gradient(circle at 85% 100%, rgba(239, 68, 68, .6), transparent 65%);
-        opacity: 0.9;
-        mix-blend-mode: screen;
-        animation: pulse-ring 3s ease-in-out infinite;
-        pointer-events: none;
-      }
-
-      @keyframes pulse-ring {
-        0%, 100% {
-          transform: scale(1);
-          opacity: 0.85;
-        }
-        50% {
-          transform: scale(1.06);
-          opacity: 1;
-        }
-      }
-
-      .logo-inner {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-      }
-
-      .logo-img {
-        width: 100%;
-        max-width: 270px;
-        display: block;
-        animation: float-logo 3.6s ease-in-out infinite;
-        filter:
-          drop-shadow(0 0 26px rgba(248, 250, 252, 0.18))
-          drop-shadow(0 0 40px rgba(248, 113, 113, 0.35));
-      }
-
-      @keyframes float-logo {
-        0%, 100% {
-          transform: translate3d(0, 0, 0) scale(1);
-        }
-        50% {
-          transform: translate3d(0, -7px, 0) scale(1.02);
-        }
-      }
-
-      .logo-neon {
-        position: absolute;
-        inset: auto 15% -14px;
-        height: 22px;
-        border-radius: 999px;
-        background: radial-gradient(circle, rgba(252, 211, 77, 0.7), transparent 70%);
-        opacity: 0.9;
-        filter: blur(10px);
-        z-index: 0;
-      }
-
-      .pill-row {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
-      }
-
-      .pill {
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        padding: 4px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(248, 250, 252, 0.22);
-        background: rgba(15, 23, 42, 0.96);
-        color: var(--text-soft);
-      }
-
-      /* card */
-
-      .card {
-        margin-top: 28px;
-        padding: 18px 14px 18px;
-        border-radius: 20px;
-        background: var(--card);
-        border: 1px solid rgba(248, 250, 252, 0.12);
-        box-shadow:
-          0 0 45px rgba(239, 68, 68, 0.18),
-          0 22px 70px rgba(15, 23, 42, 0.98);
-      }
-
-      .card-title {
-        font-family: "Rajdhani", system-ui;
-        font-size: 1.2rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        margin: 0 0 4px;
-      }
-
-      .card-sub {
-        margin: 0 0 12px;
-        font-size: 13px;
-        color: var(--text-soft);
-      }
-
-      /* form */
-
-      .form {
-        display: grid;
-        gap: 12px;
-        margin-top: 4px;
-      }
-
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .label {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--text-soft);
-      }
-
-      .label span {
-        color: var(--accent-2);
-      }
-
-      .input {
-        border-radius: 999px;
-        border: 1px solid rgba(248, 250, 252, 0.18);
-        background: radial-gradient(circle at 0 0, #020617, #02010a);
-        padding: 10px 13px;
-        font-size: 14px;
-        color: var(--text);
-        outline: none;
-        -webkit-appearance: none;
-        transition: border-color 0.16s ease, box-shadow 0.16s ease,
-          background 0.16s ease, transform 0.06s ease;
-      }
-
-      .input:focus {
-        border-color: var(--accent-2);
-        box-shadow:
-          0 0 0 1px rgba(252, 211, 77, 0.9),
-          0 0 22px rgba(250, 204, 21, 0.5);
-        background: radial-gradient(circle at 0 0, #020617, #030712);
-        transform: translateY(-1px);
-      }
-
-      .hint {
-        font-size: 11px;
-        color: var(--text-soft);
-      }
-
-      .checkbox-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 7px;
-        margin-top: 2px;
-      }
-
-      .checkbox-row input {
-        margin-top: 2px;
-      }
-
-      .checkbox-row span {
-        font-size: 11px;
-        color: var(--text-soft);
-      }
-
-      /* button */
-
-      .btn-wrap {
-        margin-top: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        align-items: stretch;
-      }
-
-      .btn {
-        border-radius: 999px;
-        padding: 12px 18px;
-        border: none;
-        font-size: 14px;
-        font-weight: 800;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        cursor: pointer;
-        color: #111827;
-        position: relative;
-        overflow: hidden;
-        background: conic-gradient(
-          from 220deg,
-          #facc15,
-          #f97316,
-          #ef4444,
-          #b91c1c,
-          #facc15
-        );
-        box-shadow:
-          0 0 28px rgba(248, 113, 113, 0.6),
-          0 0 90px rgba(239, 68, 68, 0.55);
-        transition: transform 0.12s ease, box-shadow 0.12s ease;
-      }
-
-      .btn-inner {
-        position: relative;
-        z-index: 1;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding-inline: 4px;
-      }
-
-      .btn-glow {
-        position: absolute;
-        inset: 2px;
-        border-radius: inherit;
-        background: radial-gradient(circle at 0 0, #fefce8, #f97316);
-        opacity: 0.9;
-      }
-
-      .btn::before {
-        content: "";
-        position: absolute;
-        inset: -40%;
-        background:
-          radial-gradient(circle at 0 0, rgba(254, 249, 195, 0.8), transparent 55%),
-          radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.8), transparent 60%);
-        opacity: 0.7;
-        mix-blend-mode: screen;
-        animation: btn-glow 3s ease-in-out infinite;
-      }
-
-      .btn span.icon {
-        font-size: 1.1rem;
-        transform: translateY(0.5px);
-      }
-
-      @keyframes btn-glow {
-        0%, 100% {
-          transform: scale(1);
-          opacity: 0.8;
-        }
-        50% {
-          transform: scale(1.08);
-          opacity: 1;
-        }
-      }
-
-      .btn:hover {
-        transform: translateY(-1px) scale(1.01);
-        box-shadow:
-          0 0 34px rgba(248, 113, 113, 0.7),
-          0 0 110px rgba(239, 68, 68, 0.7);
-      }
-
-      .btn:active {
-        transform: translateY(1px) scale(0.99);
-      }
-
-      .btn-caption {
-        font-size: 11px;
-        text-align: center;
-        color: var(--text-soft);
-      }
-
-      .status {
-        min-height: 12px;
-        font-size: 12px;
-        text-align: center;
-        margin-top: 4px;
-        color: var(--text-soft);
-      }
-
-      .status.error {
-        color: #f97373;
-      }
-
-      /* success screen */
-
-      .success {
-        display: none;
-        text-align: center;
-        padding: 4px 4px 0;
-        animation: fade-in 0.5s ease-out forwards;
-      }
-
-      .success-icon-wrap {
-        width: 64px;
-        height: 64px;
-        border-radius: 999px;
-        margin: 0 auto 10px;
-        background: radial-gradient(circle, #22c55e, #15803d);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow:
-          0 0 28px rgba(34, 197, 94, 0.7),
-          0 0 60px rgba(21, 128, 61, 0.7);
-      }
-
-      .success-icon {
-        font-size: 32px;
-        color: #ecfdf5;
-      }
-
-      .success-title {
-        font-family: "Rajdhani", system-ui;
-        font-size: 1.5rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        margin: 6px 0 8px;
-      }
-
-      .success-text {
-        font-size: 13px;
-        color: var(--text-soft);
-        margin-bottom: 12px;
-      }
-
-      .success-links {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-
-      .social-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 9px 12px;
-        border-radius: 999px;
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
-        color: #020617;
-        border: none;
-        cursor: pointer;
-      }
-
-      .social-btn.telegram {
-        background: radial-gradient(circle at 0 0, #e0f2fe, #0ea5e9);
-        box-shadow: 0 0 24px rgba(14, 165, 233, 0.55);
-      }
-
-      .social-btn.discord {
-        background: radial-gradient(circle at 0 0, #e0e7ff, #6366f1);
-        box-shadow: 0 0 24px rgba(99, 102, 241, 0.55);
-      }
-
-      .social-icon {
-        width: 18px;
-        height: 18px;
-        border-radius: 999px;
-        background: #020617;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: #e5e7eb;
-        font-size: 11px;
-      }
-
-      .success-note {
-        font-size: 12px;
-        color: var(--text-soft);
-      }
-
-      @keyframes fade-in {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* footer with buttons */
-
-      footer {
-        margin-top: 24px;
-        font-size: 11px;
-        text-align: center;
-        color: var(--text-soft);
-      }
-
-      footer strong {
-        color: var(--text);
-      }
-
-      .footer-social-row {
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      .footer-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 11px;
-        border-radius: 999px;
-        font-size: 11px;
-        text-decoration: none;
-        color: var(--text);
-        border: 1px solid rgba(248, 250, 252, 0.18);
-        background: rgba(15, 23, 42, 0.96);
-      }
-
-      .footer-pill-icon {
-        width: 16px;
-        height: 16px;
-        border-radius: 999px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        background: #0f172a;
-      }
-
-      @media (min-width: 640px) {
-        .page {
-          max-width: 520px;
-          padding-top: 30px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg-orb dark"></div>
-    <div class="bg-orb red"></div>
-    <div class="bg-orb yellow"></div>
-
-    <div id="app">
-      <main class="page">
-        <header class="hero">
-          <div class="tag">
-            <span class="tag-pill">Closed beta</span>
-            <span class="tag-dot"></span>
-            <span>GamesWeek Milano</span>
-          </div>
-          <h1 class="hero-title">IMPERIUM</h1>
-          <p class="hero-sub">Random Death Match a fazioni. Città viva, guerra continua, nessuno è al sicuro.</p>
-
-          <div class="logo-shell">
-            <div class="logo-frame">
-              <div class="logo-glow-ring"></div>
-              <div class="logo-inner">
-                <img src="imperium-logo.png" alt="Logo Imperium" class="logo-img" />
-                <div class="logo-neon"></div>
-              </div>
-            </div>
-            <div class="pill-row">
-              <span class="pill">Minecraft Java</span>
-              <span class="pill">Random Death Match</span>
-              <span class="pill">Fazioni</span>
-            </div>
-          </div>
-        </header>
-
-        <section class="card">
-          <div id="card-content">
-            <h2 class="card-title">COMPILA IL MODULO</h2>
-            <p class="card-sub">
-              Inserisci il tuo nickname e la tua email per entrare nella lista chiusa della beta di Imperium.
-            </p>
-
-            <form class="form" id="beta-form">
-              <div class="field">
-                <label class="label" for="nickname">Nickname Minecraft <span>*</span></label>
-                <input
-                  id="nickname"
-                  name="nickname"
-                  type="text"
-                  class="input"
-                  autocomplete="off"
-                  placeholder="MrLollo"
-                />
-              </div>
-
-              <div class="field">
-                <label class="label" for="email">Email <span>*</span></label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  class="input"
-                  autocomplete="off"
-                  placeholder="tuoindirizzo@email.com"
-                />
-                <div class="hint">Solo accesso beta + info sul boost di lancio.</div>
-              </div>
-
-              <div class="checkbox-row">
-                <input id="agree" name="agree" type="checkbox" />
-                <label for="agree">
-                  <span>Accetto che la mia mail venga usata per comunicazioni legate a Imperium.</span>
-                </label>
-              </div>
-
-              <div class="btn-wrap">
-                <button class="btn" type="submit">
-                  <div class="btn-glow"></div>
-                  <div class="btn-inner">
-                    <span>ENTRA IN BETA</span>
-                    <span class="icon">↗</span>
-                  </div>
-                </button>
-                <div class="btn-caption">
-                  Accesso riservato a chi ha scansionato il QR durante il GamesWeek.
-                </div>
-                <div class="status" id="status">
-                  Compila nickname, email e privacy per entrare in lista.
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div class="success" id="success-screen">
-            <div class="success-icon-wrap">
-              <div class="success-icon">✓</div>
-            </div>
-            <h3 class="success-title">SEI DENTRO</h3>
-            <p class="success-text">
-              Ti invieremo via mail l'accesso alla beta e il boost speciale per il day one.
-              Ora unisciti ai canali ufficiali così non ti perdi nulla.
-            </p>
-
-            <div class="success-links">
-              <a
-                href="https://t.me/ImperiumCity"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-btn telegram"
-              >
-                <span class="social-icon">✈</span>
-                <span>Unisciti al canale Telegram</span>
-              </a>
-              <a
-                href="https://discord.imperiumcity.it"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-btn discord"
-              >
-                <span class="social-icon">Δ</span>
-                <span>Entra nel server Discord</span>
-              </a>
-            </div>
-
-            <p class="success-note">
-              Rimani connesso soprattutto su <strong>Telegram</strong>: lì annunceremo prima di tutti
-              l'apertura della beta, gli orari dei test e la data della release ufficiale.
-              Su <strong>Discord</strong> troverai le fazioni, i canali vocali e gli eventi community.
-            </p>
-          </div>
-        </section>
-
-        <footer>
-          <div><strong>Imperium Network</strong> • Preparati a spawnare in guerra.</div>
-          <div class="footer-social-row">
-            <a
-              href="https://t.me/ImperiumCity"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer-pill"
-            >
-              <span class="footer-pill-icon">✈</span>
-              <span>Telegram</span>
-            </a>
-            <a
-              href="https://discord.imperiumcity.it"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer-pill"
-            >
-              <span class="footer-pill-icon">♜</span>
-              <span>Discord</span>
-            </a>
-          </div>
-        </footer>
-      </main>
-    </div>
-
-    <script>
-      const form = document.getElementById("beta-form");
-      const statusEl = document.getElementById("status");
-      const cardContent = document.getElementById("card-content");
-      const successScreen = document.getElementById("success-screen");
-
-      function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      }
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const nickname = document.getElementById("nickname").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const agree = document.getElementById("agree").checked;
-
-        statusEl.classList.remove("error");
-
-        if (!nickname || !email || !agree) {
-          statusEl.textContent =
-            "Compila nickname, email e accetta la privacy per continuare.";
-          statusEl.classList.add("error");
-          return;
-        }
-
-        if (!isValidEmail(email)) {
-          statusEl.textContent = "Inserisci un indirizzo email valido.";
-          statusEl.classList.add("error");
-          return;
-        }
-
-        // tutto ok: mostra la schermata di successo (simulata)
-        cardContent.style.display = "none";
-        successScreen.style.display = "block";
-      });
-
-      // Intro animation card
-      const card = document.querySelector(".card");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              card.style.transition = "opacity 0.55s ease-out, transform 0.55s ease-out";
-              card.style.opacity = "1";
-              card.style.transform = "translateY(0)";
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.3 }
-      );
-
-      card.style.opacity = "0";
-      card.style.transform = "translateY(20px)";
-      observer.observe(card);
-    </script>
-  </body>
+    }
+    
+.page {
+  max-width:480px;
+  margin:auto;
+  padding:24px 18px 60px;
+  text-align:center;
+}
+.logo {
+  width:78%;
+  margin:0 auto 20px;
+  animation:float 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 25px rgba(255,84,44,0.45));
+}
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-8px); }
+}
+.title {
+  font-family:"Rajdhani";
+  font-size:2.6rem;
+  letter-spacing:0.18em;
+}
+.subtitle {
+  font-size:1.2rem;
+  color:var(--text-soft);
+  margin-top:4px;
+}
+.card {
+  background:rgba(0,0,0,0.65);
+  padding:22px 18px;
+  border-radius:20px;
+  margin-top:26px;
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+}
+.card h2 {
+  font-family:"Rajdhani";
+  font-size:1.4rem;
+  margin:0 0 10px;
+  letter-spacing:0.14em;
+}
+.field {
+  text-align:left;
+  margin-bottom:14px;
+}
+.label {
+  font-size:0.95rem;
+  margin-bottom:4px;
+  display:block;
+  color:var(--text-soft);
+}
+.input {
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(0,0,0,0.55);
+  color:var(--text);
+  font-size:1rem;
+}
+.checkbox-row {
+  display:flex;
+  gap:8px;
+  font-size:0.9rem;
+  color:var(--text-soft);
+}
+.btn {
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff4d2e,#ffb02e);
+  border:none;
+  color:#000;
+  font-weight:800;
+  letter-spacing:0.15em;
+  font-size:1rem;
+  cursor:pointer;
+  box-shadow:0 0 35px rgba(255,80,40,0.55);
+}
+.success {
+  display:none;
+  animation:fade .5s ease-out forwards;
+  margin-top:20px;
+}
+@keyframes fade {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+.success h3 {
+  font-family:"Rajdhani";
+  font-size:1.8rem;
+  margin-bottom:10px;
+}
+.social-btn {
+  display:block;
+  padding:12px;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:1rem;
+  font-weight:600;
+  margin:10px 0;
+}
+.tg { background:#229ED9; color:white; }
+.dc { background:#5865F2; color:white; }
+footer {
+  margin-top:40px;
+  font-size:0.9rem;
+  color:var(--text-soft);
+}
+.foot-links {
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+}
+.foot-pill {
+  padding:8px 14px;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:0.9rem;
+  color:white;
+  background:rgba(255,255,255,0.1);
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<img src="imperium-logo.png" class="logo">
+
+<h1 class="title">IMPERIUM</h1>
+<p class="subtitle">Closed Beta Ufficiale</p>
+
+<div class="card" id="form-card">
+<h2>COMPILA IL MODULO</h2>
+
+<form id="beta-form">
+  <div class="field">
+    <label class="label">Nickname Minecraft *</label>
+    <input class="input" id="nickname" placeholder="MrLollo">
+  </div>
+
+  <div class="field">
+    <label class="label">Email *</label>
+    <input class="input" id="email" type="email" placeholder="tuo@email.com">
+  </div>
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="agree">
+    <label for="agree">Accetto il trattamento dati per l’accesso beta</label>
+  </div>
+
+  <button type="submit" class="btn">ENTRA IN BETA</button>
+</form>
+
+</div>
+
+<div class="success" id="success">
+  <h3>SEI DENTRO</h3>
+  <p style="color:var(--text-soft); font-size:1rem;">
+    Ora entra nei nostri canali: lì ti annunceremo <b>apertura beta</b> e <b>release ufficiale</b>.
+  </p>
+
+  <a class="social-btn tg" href="https://t.me/ImperiumCity" target="_blank">📲 Entra nel canale Telegram</a>
+  <a class="social-btn dc" href="https://discord.imperiumcity.it" target="_blank">💬 Entra nel Discord ufficiale</a>
+</div>
+
+<footer>
+  <div><b>Imperium Network</b></div>
+  <div class="foot-links">
+    <a class="foot-pill" href="https://t.me/ImperiumCity" target="_blank">Telegram</a>
+    <a class="foot-pill" href="https://discord.imperiumcity.it" target="_blank">Discord</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const form = document.getElementById('beta-form');
+const success = document.getElementById('success');
+const card = document.getElementById('form-card');
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const n = document.getElementById('nickname').value.trim();
+  const m = document.getElementById('email').value.trim();
+  const a = document.getElementById('agree').checked;
+
+  if(!n || !m || !a) {
+    alert("Compila tutti i campi e accetta la privacy.");
+    return;
+  }
+  card.style.display = 'none';
+  success.style.display = 'block';
+});
+</script>
+
+</body>
 </html>
